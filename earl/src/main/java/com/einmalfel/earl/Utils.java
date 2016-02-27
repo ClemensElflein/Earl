@@ -29,14 +29,19 @@ class Utils {
   private static final String TAG = "Earl.Utils";
   private static final DateFormat rfc822DateTimeFormat = new SimpleDateFormat(
       "EEE, dd MMM yyyy HH:mm:ss Z", Locale.US);
+  private static final DateFormat rfc822DateTimeFormat2 = new SimpleDateFormat(
+      "EEE, dd MMM yyyy HH:mm Z", Locale.US);
 
   @Nullable
   static Date parseRFC822Date(@NonNull String dateString) {
     try {
       return rfc822DateTimeFormat.parse(dateString);
     } catch (ParseException exception) {
-      Log.w(TAG, "Malformed date " + dateString);
-      return null;
+      try {
+        return rfc822DateTimeFormat2.parse(dateString);
+      } catch (ParseException e) {
+        return null;
+      }
     }
   }
 
